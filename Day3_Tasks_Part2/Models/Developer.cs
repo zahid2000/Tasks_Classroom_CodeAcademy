@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Day3_Tasks_Part2.Models
+{
+    public class Developer:Person
+    {
+        public int Experiance { get; set; }
+    }
+}
