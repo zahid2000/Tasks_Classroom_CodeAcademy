@@ -12,7 +12,7 @@ string[] Urls = { "https://www.codeproject.com/Questions/204778/Get-HTML-code-fr
 };
 
 List<Task<string>> tasks = new List<Task<string>>();
-var finished=
+ 
 foreach (var item in tasks)
 {
     
