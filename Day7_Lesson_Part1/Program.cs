@@ -14,7 +14,7 @@ IEnumerable<string> GetColumnNames<T>(T entity)
            
                
            columnNames.Add(attr.DisplayName ?? info.Name);
-               
+             
            
         }
     }
