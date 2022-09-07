@@ -20,7 +20,7 @@ BEGIN
 							SET @RESULT = @RESULT+'Er: Mob.Phone can''t Less than 10 Digits; '
 						END
 
-					IF @LEN >12
+					IF @LEN >13
 						BEGIN
 							SET @RESULT = @RESULT+'Er: Mob.Phone can''t More than 13 Digits; '
 						END
@@ -34,11 +34,11 @@ BEGIN
 						BEGIN
 							SET @RESULT = @RESULT+'Er: Mob.Phone must be Start with 0 -> '+@VALUE
 						END
-					ELSE IF LEFT(CAST(@VALUE AS VARCHAR), 2)!='90' AND @LEN=11
+					ELSE IF LEFT(CAST(@VALUE AS VARCHAR), 2)!='90' AND @LEN=12
 						BEGIN
 							SET @RESULT = @RESULT+'Er: Mob.Phone must be Start with 90 -> '+@VALUE
 						END
-					ELSE IF LEFT(CAST(@VALUE AS VARCHAR), 2)!='90' AND @LEN=12
+					ELSE IF LEFT(CAST(@VALUE AS VARCHAR), 3)!='+90' AND @LEN=13
 					BEGIN
 						SET @RESULT = @RESULT+'Er: Mob.Phone must be Start with +90  -> '+@VALUE
 					END
@@ -82,7 +82,7 @@ CREATE FUNCTION CorrectPhoneFormat(@VALUE NVARCHAR(MAX)) RETURNS NVARCHAR(MAX) A
 	DECLARE @RESULT NVARCHAR(MAX)
 	IF ISNUMERIC(@VALUE)=1
 		BEGIN			
-			SET @RESULT=SUBSTRING(@VALUE,0,4)+' ('+SUBSTRING(@VALUE,4,3)+') '+SUBSTRING(@VALUE,7,3)+' '+SUBSTRING(@VALUE,10,2)+' '+SUBSTRING(@VALUE,12,2)
+			SET @RESULT=SUBSTRING(@VALUE,1,3)+' ('+SUBSTRING(@VALUE,4,3)+') '+SUBSTRING(@VALUE,7,3)+' '+SUBSTRING(@VALUE,10,2)+' '+SUBSTRING(@VALUE,12,2)
 		END
 	ELSE
 	SET @RESULT=@VALUE
@@ -92,10 +92,10 @@ GO
 
 
 
-SELECT dbo.PhoneFormat( +705323521245 ) 
-SELECT dbo.PhoneFormat( 905321234578 ) 
-SELECT dbo.PhoneFormat( 05321234578 ) 
-SELECT dbo.PhoneFormat(5321234578 ) 
+SELECT dbo.PhoneFormat( '+905323521245' ) 
+SELECT dbo.PhoneFormat( '905321234578' ) 
+SELECT dbo.PhoneFormat( '05321234578' ) 
+SELECT dbo.PhoneFormat('5321234578' ) 
 
  
   
