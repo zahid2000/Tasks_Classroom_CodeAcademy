@@ -1,9 +1,9 @@
 
-
-Create FUNCTION PhoneFormat(@VALUE AS VARCHAR(20)) RETURNS VARCHAR(MAX) AS
+--Phone Format Function
+CREATE FUNCTION PhoneFormat(@VALUE AS NVARCHAR(20)) RETURNS NVARCHAR(MAX) AS
 BEGIN
     DECLARE @LEN AS BIGINT
-    DECLARE @RESULT AS VARCHAR(MAX)
+    DECLARE @RESULT AS NVARCHAR(MAX)
 	SET @RESULT = ''
 
 	SET @VALUE = LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(@VALUE,'-',''),'\r\n',' '),'\r',' '),'\n',' '),CHAR(13),' '), CHAR(10), ' '), CHAR(9),' '),CHAR(13)+CHAR(10),' ')))
@@ -34,11 +34,11 @@ BEGIN
 						BEGIN
 							SET @RESULT = @RESULT+'Er: Mob.Phone must be Start with 0 -> '+@VALUE
 						END
-					ELSE IF LEFT(CAST(@VALUE AS VARCHAR), 2)!='90' AND @LEN=12
+					ELSE IF LEFT(CAST(@VALUE AS VARCHAR), 2)!='90' AND @LEN=11
 						BEGIN
 							SET @RESULT = @RESULT+'Er: Mob.Phone must be Start with 90 -> '+@VALUE
 						END
-					ELSE IF LEFT(CAST(@VALUE AS VARCHAR), 3)!='+90' AND @LEN=12
+					ELSE IF LEFT(CAST(@VALUE AS VARCHAR), 2)!='90' AND @LEN=12
 					BEGIN
 						SET @RESULT = @RESULT+'Er: Mob.Phone must be Start with +90  -> '+@VALUE
 					END
@@ -76,10 +76,10 @@ BEGIN
 RETURN dbo.CorrectPhoneFormat(@RESULT)	
 END
 GO
-
-CREATE FUNCTION CorrectPhoneFormat(@VALUE VARCHAR(MAX)) RETURNS VARCHAR(MAX) AS
+--Phone Correct Function
+CREATE FUNCTION CorrectPhoneFormat(@VALUE NVARCHAR(MAX)) RETURNS NVARCHAR(MAX) AS
 	BEGIN
-	DECLARE @RESULT VARCHAR(MAX)
+	DECLARE @RESULT NVARCHAR(MAX)
 	IF ISNUMERIC(@VALUE)=1
 		BEGIN			
 			SET @RESULT=SUBSTRING(@VALUE,0,4)+' ('+SUBSTRING(@VALUE,4,3)+') '+SUBSTRING(@VALUE,7,3)+' '+SUBSTRING(@VALUE,10,2)+' '+SUBSTRING(@VALUE,12,2)
@@ -92,10 +92,30 @@ GO
 
 
 
-SELECT dbo.PhoneFormat( +905323521245 ) 
+SELECT dbo.PhoneFormat( +705323521245 ) 
 SELECT dbo.PhoneFormat( 905321234578 ) 
 SELECT dbo.PhoneFormat( 05321234578 ) 
 SELECT dbo.PhoneFormat(5321234578 ) 
 
  
   
+--Insert Trigger
+
+create Trigger InsertShipper on Shippers
+ instead of insert
+ as
+ begin
+ Declare @CompanyName nvarchar(40)=(select CompanyName from inserted)
+ Declare @Phone nvarchar(24)=(select Phone from inserted)
+
+	 insert into Shippers(CompanyName,Phone) values( @CompanyName,dbo.PhoneFormat(@Phone))
+
+ end
+ go
+
+
+ insert into Shippers values ('Code Academy1','+905321234578')
+ insert into Shippers values ('Code Academy2','905321234578')
+ insert into Shippers values ('Code Academy3','05321234578')
+ insert into Shippers values ('Code Academy4','5321234578')
+ select * from Shippers
