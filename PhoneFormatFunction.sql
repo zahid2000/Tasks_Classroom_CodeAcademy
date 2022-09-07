@@ -20,7 +20,7 @@ BEGIN
 							SET @RESULT = @RESULT+'Er: Mob.Phone can''t Less than 10 Digits; '
 						END
 
-					IF @LEN >13
+					ELSE IF @LEN >13
 						BEGIN
 							SET @RESULT = @RESULT+'Er: Mob.Phone can''t More than 13 Digits; '
 						END
