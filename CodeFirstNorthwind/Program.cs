@@ -15,7 +15,7 @@ using (context=new northwindContext())
 });
 bool UpdateResult=context.SaveChanges()>0;
 System.Console.WriteLine($"Update basari{(UpdateResult?"li":"siz")}");
-}
+} 
 
 
 using (context=new northwindContext())
