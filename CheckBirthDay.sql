@@ -1,11 +1,11 @@
-﻿alter function CheckBirthDay(@Age int,@OldDate date) Returns nvarchar(Max)
+﻿Alter function CheckBirthDay(@Age int,@OldDate date) Returns nvarchar(Max)
 
 as
 	begin
 		Declare	@NowDate date=GetDate()
 		Declare	@NowYear int=(Select YEAR(@NowDate) as Year)
 		Declare	@NowMonth int=(Select MONTH(@NowDate) as MONTH)
-		Declare	@NowDay int=(Select YEAR(@NowDate) as Year)
+		Declare	@NowDay int=(Select Day(@NowDate) as Day)
 		
 		Declare	@OldYear int=(Select YEAR(@OldDate) as Year)
 		Declare @OldMonth int=(Select MONTH(@OldDate) as MONTH)
@@ -16,8 +16,8 @@ as
 																																		--09-08-2022<-->01-08-2022
 		If @Age<@ResultYear
 			return N'Sizin artıq' +Cast(@Age as nvarchar)+N' yaşınız bitib'  
-		Else If @Age=@ResultYear
-			Begin
+		Else If @Age=@ResultYear			
+			Begin		
 				If @NowMonth>@OldMonth
 					return N'Sizin artıq' +Cast(@Age as nvarchar)+N' yaşınız bitib'  
 				Else If @NowMonth=@OldMonth
@@ -26,39 +26,57 @@ as
 							return N'Sizin artıq' +Cast(@Age as nvarchar)+N' yaşınız bitib'  
 						Else If @NowDay=@OldDay
 							Begin
-								return 'Təbriklər bugün sizin ad gününüzdür!'
+								return N'Təbriklər bugün sizin ad gününüzdür!'
 							End
 						Else
 							Begin
-								return 'Sizin ' +Cast(@Age as nvarchar)+'  yaşınız bitməyə '+Cast((@OldDay-@NowDay) as nvarchar) +' gün qalıb'
+								return N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@OldDay-@NowDay) as nvarchar) +N' gün qalıb'
 							End
 					End
 				Else
 					Begin
 						If @NowDay<@OldDay
-							return  'Sizin ' +Cast(@Age as nvarchar)+'  yaşınız bitməyə '+Cast((@OldMonth-@NowMonth) as nvarchar) +' ay '+Cast((@OldDay-@NowDay) as nvarchar) +' gün qalıb'
+							return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay '+Cast((@OldDay-@NowDay) as nvarchar) +N' gün qalıb'
 						Else If @NowDay=@OldDay
 							Begin
-								return  'Sizin ' +Cast(@Age as nvarchar)+'  yaşınız bitməyə '+Cast((@OldMonth-@NowMonth) as nvarchar) +' ay qalıb'
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay qalıb'
 							End
 						Else
 							Begin
-								return  'Sizin ' +Cast(@Age as nvarchar)+'  yaşınız bitməyə '+Cast((@OldMonth-@NowMonth-1) as nvarchar) +' ay '+Cast(((@OldDay+dbo.GetMonthDays(@OldMonth-@NowMonth))-@NowDay) as nvarchar) +' gün qalıb'
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@OldMonth-@NowMonth-1) as nvarchar) +N' ay '+Cast(((@OldDay+dbo.GetMonthDays(@NowMonth))) -@NowDay as nvarchar) +N' gün qalıb'
 							End
 					End					
 			End
 		Else
 			Begin
-				return 'Yasin kicikdir'
+				If @NowMonth<@OldMonth
+					Begin
+						If @NowDay<@OldDay
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear)as nvarchar)+' il '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay '+Cast((@OldDay-@NowDay) as nvarchar) +N' gün qalıb'
+					
+						Else If @NowDay=@OldDay
+							Begin
+
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear)as nvarchar)+' il '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay ' +N' 0 gün qalıb'
+							End
+						Else If @NowDay>@OldDay
+							Begin
+
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear)as nvarchar)+' il '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay '+Cast((@OldDay-@NowDay) as nvarchar) +N' gün qalıb'
+							End
+					
+					
+					End
+						
 			End
 
 
-		return @OldYear
+		return @OldMonth
 	end
 	
 go
 
-create function GetMonthDays(@MonthNum int) returns int
+Alter function GetMonthDays(@MonthNum int) returns int
 as
 	Begin
 		Return	CASE 
@@ -70,6 +88,6 @@ as
 	End
 go
 
-select dbo.CheckBirthday(18,'01/03/2004')
+select dbo.CheckBirthday(18,'10/09/2007')
 
-select dbo.GetMonthDays(12)
+--
