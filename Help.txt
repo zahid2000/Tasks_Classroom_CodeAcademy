@@ -1,0 +1,17 @@
+dotnet tool install --global  dotnet-ef ->Toollari yukleyir
+dotnet tool update--global  dotnet-ef ->Toollari yenileyir
+dotnet ef dbcontext scaffold "server=CANR2-10\SQLEXPRESS;database=northwind;trusted_connection=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models  -t Categories -t Products
+dotnet ef dbcontext scaffold "server=CANR2-10\SQLEXPRESS;database=northwind;trusted_connection=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+// 1) dotnet add package Microsoft.EntityFrameworkCore.Design
+// 1) dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+
+// --no-pluralize -> Sorguda tabloların isimlerini tekilleştirmez
+// -t             -> Eklemek istediğiniz tablonun adını yazınız
+
+// dotnet ef dbcontext scaffold "server=localhost,1433;uid=sa;database=northwind;pwd=Pro247!!;" Microsoft.EntityFrameworkCore.SqlServer -o Models  -t Categories -t Products
+
+// dotnet ef dbcontext scaffold --help
+//dotnet new console -n proje adi
+//dotnet ef  migrations  add initialize
+//dotnet ef database update
