@@ -36,7 +36,7 @@ create table Town
 )
 
 
-Alter procedure CheckCountries @CountryName nvarchar(40),@CityName nvarchar(40),@DistrictName nvarchar(40),@TownName nvarchar(40)
+Create procedure CheckCountries @CountryName nvarchar(40),@CityName nvarchar(40),@DistrictName nvarchar(40),@TownName nvarchar(40)
 as
 begin
  

@@ -2,18 +2,18 @@
 
 as
 	begin
+		--Now Date
 		Declare	@NowDate date=GetDate()
 		Declare	@NowYear int=(Select YEAR(@NowDate) as Year)
 		Declare	@NowMonth int=(Select MONTH(@NowDate) as MONTH)
 		Declare	@NowDay int=(Select Day(@NowDate) as Day)
-		
+		--Old Date
 		Declare	@OldYear int=(Select YEAR(@OldDate) as Year)
 		Declare @OldMonth int=(Select MONTH(@OldDate) as MONTH)
 		Declare @OldDay int=(Select Day(@OldDate) as Day)
-
+		--difference Years
 		Declare @ResultYear int =@NowYear-@OldYear
-	
-																																		--09-08-2022<-->01-08-2022
+
 		If @Age<@ResultYear
 			return N'Sizin artıq' +Cast(@Age as nvarchar)+N' yaşınız bitib'  
 		Else If @Age=@ResultYear			
@@ -53,27 +53,50 @@ as
 					Begin
 						If @NowDay<@OldDay
 								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear)as nvarchar)+' il '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay '+Cast((@OldDay-@NowDay) as nvarchar) +N' gün qalıb'
+						Else If @NowDay=@OldDay
+							Begin
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear)as nvarchar)+' il '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay ' +N' 0 gün qalıb'
+							End
+						Else 
+							Begin
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear)as nvarchar)+' il '+Cast((@OldMonth-@NowMonth-1) as nvarchar) +N' ay '+Cast(((@OldDay+dbo.GetMonthDays(@NowMonth))-@NowDay) as nvarchar) +N' gün qalıb'
+							End					
+					End
+				Else If @NowMonth=@OldMonth
+					Begin
+							If @NowDay<@OldDay
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear)as nvarchar)+' il '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay '+Cast((@OldDay-@NowDay) as nvarchar) +N' gün qalıb'
 					
 						Else If @NowDay=@OldDay
 							Begin
 
 								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear)as nvarchar)+' il '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay ' +N' 0 gün qalıb'
 							End
-						Else If @NowDay>@OldDay
+						Else 
 							Begin
 
-								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear)as nvarchar)+' il '+Cast((@OldMonth-@NowMonth) as nvarchar) +N' ay '+Cast((@OldDay-@NowDay) as nvarchar) +N' gün qalıb'
-							End
-					
-					
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear-1)as nvarchar)+' il '+Cast((@OldMonth+12-@NowMonth-1) as nvarchar) +N' ay '+Cast(((@OldDay+dbo.GetMonthDays(@NowMonth))-@NowDay) as nvarchar) +N' gün qalıb'
+							End	
 					End
-						
+				Else
+					Begin
+						If @NowDay<@OldDay
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear-1)as nvarchar)+' il '+Cast((@OldMonth+12-@NowMonth) as nvarchar) +N' ay '+Cast((@OldDay-@NowDay) as nvarchar) +N' gün qalıb'
+					
+						Else If @NowDay=@OldDay
+							Begin
+
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear-1)as nvarchar)+' il '+Cast((@OldMonth+12-@NowMonth) as nvarchar) +N' ay ' +N' 0 gün qalıb'
+							End
+						Else 
+							Begin
+
+								return  N'Sizin ' +Cast(@Age as nvarchar)+N'  yaşınız bitməyə '+Cast((@Age-@ResultYear-2)as nvarchar)+' il '+Cast((@OldMonth+12-@NowMonth-1) as nvarchar) +N' ay '+Cast(((@OldDay+dbo.GetMonthDays(@NowMonth))-@NowDay) as nvarchar) +N' gün qalıb'
+							End	
+					End
 			End
-
-
-		return @OldMonth
-	end
-	
+		return 'Error'
+	end	
 go
 
 Alter function GetMonthDays(@MonthNum int) returns int
@@ -88,6 +111,4 @@ as
 	End
 go
 
-select dbo.CheckBirthday(18,'10/09/2007')
-
---
+select dbo.CheckBirthday(18,'07/11/2005')
