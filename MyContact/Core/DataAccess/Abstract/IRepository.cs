@@ -1,8 +1,9 @@
+using MyContact.Core.Entities;
 using System.Linq.Expressions;
 
 namespace MyContact.Core.DataAccess.Abstract
 {
-    public interface IRepository<TEntity> where TEntity:class,new()
+    public interface IRepository<TEntity> where TEntity:class, IEntity, new()
     {
         void Add(TEntity entity);
         void Delete(TEntity entity);

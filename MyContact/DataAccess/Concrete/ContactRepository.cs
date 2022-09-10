@@ -1,6 +1,5 @@
-
-using MyContact.Core.DataAccess.Concrete;
-using MyContact.DataAccess.Abstract;  
+using MyContact.Core.DataAccess.Concrete.EntityFramework;
+using MyContact.DataAccess.Abstract;
 using MyContact.Models;
 
 namespace MyContact.DataAccess.Concrete

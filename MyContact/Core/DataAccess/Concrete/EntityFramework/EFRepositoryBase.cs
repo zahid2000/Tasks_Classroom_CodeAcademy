@@ -1,10 +1,12 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using MyContact.Core.DataAccess.Abstract;
-namespace MyContact.Core.DataAccess.Concrete
+using MyContact.Core.Entities;
+
+namespace MyContact.Core.DataAccess.Concrete.EntityFramework
 {
     public class EFRepositoryBase<TEntity, TContext> : IRepository<TEntity>
-    where TEntity : class, new()
+    where TEntity : class, IEntity, new()
     where TContext : DbContext, new()
     {
         public void Add(TEntity entity)
@@ -27,7 +29,7 @@ namespace MyContact.Core.DataAccess.Concrete
             }
         }
 
-        public TEntity Get(Expression<Func<TEntity,bool>> filter)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
             using (TContext context = new TContext())
             {
@@ -35,13 +37,13 @@ namespace MyContact.Core.DataAccess.Concrete
             }
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity,bool>> filter=null)
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (TContext context = new TContext())
             {
-                return filter==null
-                ?context.Set<TEntity>().ToList()
-                :context.Set<TEntity>().Where(filter).ToList();
+                return filter == null
+                ? context.Set<TEntity>().ToList()
+                : context.Set<TEntity>().Where(filter).ToList();
             }
         }
 
@@ -49,8 +51,8 @@ namespace MyContact.Core.DataAccess.Concrete
         {
             using (TContext context = new TContext())
             {
-                var updatedEntity=context.Entry(entity);
-                updatedEntity.State=EntityState.Modified;
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
             }
         }

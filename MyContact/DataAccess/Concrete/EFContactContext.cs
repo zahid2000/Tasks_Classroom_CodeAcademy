@@ -7,7 +7,7 @@ namespace MyContact.DataAccess.Concrete
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"server=CANR2-10\SQLEXPRESS;database=MyContactDb;Trusted_Connection=true;");
+            optionsBuilder.UseSqlServer(@"server=DESKTOP-QBQM5QA\SQLEXPRESS;database=MyContactDb;Trusted_Connection=true;");
             base.OnConfiguring(optionsBuilder);
         }
         public DbSet<Contact> Contacts { get; set; }
