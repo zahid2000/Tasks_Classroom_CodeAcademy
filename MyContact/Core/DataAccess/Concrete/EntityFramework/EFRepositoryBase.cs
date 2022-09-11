@@ -5,7 +5,7 @@ using MyContact.Core.Entities;
 
 namespace MyContact.Core.DataAccess.Concrete.EntityFramework
 {
-    public class EFRepositoryBase<TEntity, TContext> : IRepository<TEntity>
+    public class EFRepositoryBase<TEntity, TContext> : IRepository<TEntity>, IAsyncRepository<TEntity>
     where TEntity : class, IEntity, new()
     where TContext : DbContext, new()
     {
@@ -18,7 +18,6 @@ namespace MyContact.Core.DataAccess.Concrete.EntityFramework
                 context.SaveChanges();
             }
         }
-
         public void Delete(TEntity entity)
         {
             using (TContext context = new TContext())
@@ -28,7 +27,6 @@ namespace MyContact.Core.DataAccess.Concrete.EntityFramework
                 context.SaveChanges();
             }
         }
-
         public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
             using (TContext context = new TContext())
@@ -36,7 +34,13 @@ namespace MyContact.Core.DataAccess.Concrete.EntityFramework
                 return context.Set<TEntity>().SingleOrDefault(filter);
             }
         }
-
+        public TEntity Get(TEntity entity)
+        {
+            using (TContext context = new TContext())
+            {
+                return context.Set<TEntity>().SingleOrDefault(entity);
+            }
+        }
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (TContext context = new TContext())
@@ -46,7 +50,15 @@ namespace MyContact.Core.DataAccess.Concrete.EntityFramework
                 : context.Set<TEntity>().Where(filter).ToList();
             }
         }
-
+        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
+        {
+            using (TContext context = new TContext())
+            {
+                return filter == null
+                ? await context.Set<TEntity>().ToListAsync()
+                : await context.Set<TEntity>().Where(filter).ToListAsync();
+            }
+        }
         public void Update(TEntity entity)
         {
             using (TContext context = new TContext())
@@ -56,5 +68,7 @@ namespace MyContact.Core.DataAccess.Concrete.EntityFramework
                 context.SaveChanges();
             }
         }
+
+
     }
 }

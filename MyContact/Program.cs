@@ -1,55 +1,141 @@
-﻿using MyContact.DataAccess.Abstract;
-using MyContact.DataAccess.Concrete;
+﻿using MyContact.Core.Utilities.Logger;
+using MyContact.DataAccess.Abstract;
+using MyContact.DataAccess.Concrete.AdoNet;
+using MyContact.DataAccess.Concrete.EntityFramework;
 using MyContact.Models;
 using MyContact.Services.Abstract;
-using MyContact.Services.Concrete;
+using MyContact.Services.Concrete.Ado.Net;
+using MyContact.Services.Concrete.EntityFramework;
 
 ILoggerService loggerService = new LoggerService();
-IContactRepository contactRepository = new ContactRepository();
-IContactService contactService = new ContactService(contactRepository, loggerService);
+IContactRepository efContactRepository = new ContactRepository();
+IContactRepository adoContactRepository = new AdoContactRepository();
+IContactService efContactService = new EfContactService(efContactRepository, loggerService);
+IContactService adoContactService = new AdoContactService(adoContactRepository, loggerService);
 
+MainMenu:
 while (true)
 {
-    Console.WriteLine(
-        "Add a new contact-> (a)\n" +
-        "Get all contacts -> (l)\n" +
-        "Search contact -> (s)\n" +
-        "Delete contact by id ->(d)\n" +
-        "Update contact ->(u)"
-    ); System.Console.WriteLine(new string('-', 100));
+    Console.WriteLine("Ado.Net Menu -> (a)\n" +
+        "Entity Framework Menu -> (e)\n" +
+        "Exit -> (x)");
     string answer = Console.ReadLine();
-    System.Console.WriteLine(new string('-', 100));
-    switch (answer.ToLower())
+    Console.WriteLine(new string('-', 100));
+    switch (answer.ToLower().Replace(" ", ""))
     {
         case "a":
-            AddContact();
-            System.Console.WriteLine(new string('-', 100));
+            AdoNetMenu();
             break;
-        case "l":
-            GetAll();
-            System.Console.WriteLine(new string('-', 100));
+        case "e":
+            EFMenu();
             break;
-        case "s":
-            Get();
-            System.Console.WriteLine(new string('-', 100));
-            break;
-        case "d":
-            Delete();
-            System.Console.WriteLine(new string('-', 100));
-            break;
-        case "u":
-            UpdateContact();
-            System.Console.WriteLine(new string('-', 100));
-            break;
-        default:
-            System.Console.WriteLine("Er : This simvol is not correct");
+        case "x":
+            goto Exit_MainMenu;
             break;
 
+        default:
+            loggerService.Log("LOG : Incorrect simvol", ConsoleColor.Red);
+            break;
     }
 }
+Exit_MainMenu:
+loggerService.Log("See you later", ConsoleColor.Yellow);
+void AdoNetMenu()
+{
+    while (true)
+    {
+        Console.WriteLine(
+            "Add a new contact-> (a)\n" +
+            "Get all contacts -> (l)\n" +
+            "Search contact -> (s)\n" +
+            "Delete contact by id ->(d)\n" +
+            "Update contact ->(u)\n" +
+            "Main menu -> (m)"
+        ); System.Console.WriteLine(new string('-', 100));
+        string answer = Console.ReadLine();
+        System.Console.WriteLine(new string('-', 100));
+        switch (answer.ToLower())
+        {
+            case "a":
+                AdoAddContact();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "l":
+                AdoGetAllAsync();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "s":
+                AdoGet();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "d":
+                AdoDelete();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "u":
+                AdoUpdateContact();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "m":
+                goto Exit_AdoMenu;
+            default:
+                loggerService.Log("LOG : Incorrect simvol", ConsoleColor.Red);
+                break;
 
+        }
 
-void AddContact()
+    }
+Exit_AdoMenu:;
+}
+void EFMenu()
+{
+    while (true)
+    {
+        Console.WriteLine(
+            "Add a new contact-> (a)\n" +
+            "Get all contacts -> (l)\n" +
+            "Search contact -> (s)\n" +
+            "Delete contact by id -> (d)\n" +
+            "Update contact -> (u)\n" +
+            "Back to main menu -> (m)"
+        ); System.Console.WriteLine(new string('-', 100));
+        string answer = Console.ReadLine();
+        System.Console.WriteLine(new string('-', 100));
+        switch (answer.ToLower())
+        {
+            case "a":
+                EFAddContact();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "l":
+                EFGetAll();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "s":
+                EFGet();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "d":
+                EFDelete();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "u":
+                EFUpdateContact();
+                System.Console.WriteLine(new string('-', 100));
+                break;
+            case "m":
+                goto Exit_EFMenu;
+            default:
+                loggerService.Log("LOG : Incorrect simvol", ConsoleColor.Red);
+                break;
+
+        }
+    }
+Exit_EFMenu:;
+}
+
+#region EntityFramework
+void EFAddContact()
 {
     Console.Clear();
     Contact contact = new Contact();
@@ -65,83 +151,162 @@ void AddContact()
     var answer = Console.ReadLine();
     if (answer.ToLower().Equals("y"))
     {
-        contactService.Add(contact);
+        efContactService.Add(contact);
     }
     else
     {
         System.Console.WriteLine("Doesn't coreect simvol");
     }
 }
-void GetAll()
+void EFGetAll()
 {
     Console.Clear();
-    List<Contact> contacts = contactService.GetAll();
+    List<Contact> contacts = efContactService.GetAll();
     ConsoleList(contacts);
 }
-void Get()
+void EFGet()
 {
     Console.Clear();
-    System.Console.WriteLine("Kontaktı hansı parametrə görə axtarmaq istəyirsiz?\n Ad -> (a),\nSoyad -> (s),\nTelefon -> (t),\nEmail -> (e)");
+    System.Console.WriteLine("By which parameter do you want to search for the contact??\n " +
+        " FirstName -> (a),\n" +
+        " LastName -> (s),\n" +
+        " Phone -> (t),\n" +
+        " Mail -> (e)");
     string answer = Console.ReadLine();
     switch (answer.ToLower())
     {
         case "a":
-            System.Console.WriteLine("Ad daxil edin");
+            System.Console.WriteLine("Enter the FirstName");
             string name = Console.ReadLine();
-            ConsoleContact(contactService.GetBy(x => x.FirstName == name));
+            ConsoleContact(efContactService.GetBy(x => x.FirstName == name));
             break;
         case "s":
-            System.Console.WriteLine("Soyad daxil edin");
+            System.Console.WriteLine("Enter the LastName");
             string lastName = Console.ReadLine();
-            ConsoleContact(contactService.GetBy(x => x.LastName == lastName));
+            ConsoleContact(efContactService.GetBy(x => x.LastName == lastName));
             break;
         case "t":
-            System.Console.WriteLine("Telefon daxil edin");
+            System.Console.WriteLine("Enter the Phone");
             string phone = Console.ReadLine();
-            ConsoleContact(contactService.GetBy(x => x.Phone == phone));
+            ConsoleContact(efContactService.GetBy(x => x.Phone == phone));
             break;
         case "e":
-            System.Console.WriteLine("Email daxil edin");
+            System.Console.WriteLine("Enter the Mail");
             string email = Console.ReadLine();
-            ConsoleContact(contactService.GetBy(x => x.Email == email));
+            ConsoleContact(efContactService.GetBy(x => x.Email == email));
             break;
         default:
-            System.Console.WriteLine("Yalnis simvol");
+            System.Console.WriteLine("Incorrect simvol");
             break;
     }
 }
-void Delete()
+void EFDelete()
 {
-
-    System.Console.WriteLine("Silmək istədiyiniz Kontaktın İd sini daxil edin");
+    Console.WriteLine("Enter the Contact Id which you want to update");
     int answer = int.Parse(Console.ReadLine());
-    Contact deletedContact = contactService.GetBy(x => x.Id == answer);
-    if (deletedContact == null) System.Console.WriteLine("Bu kontakt tapılmadı");
-    else contactService.Delete(deletedContact);
+    Contact deletedContact = efContactService.GetBy(x => x.Id == answer);
+    if (deletedContact == null) System.Console.WriteLine("This Contact is not exists");
+    else efContactService.Delete(deletedContact);
 }
-void UpdateContact()
+void EFUpdateContact()
 {
     Console.Clear();
     Contact contact = new Contact();
-    Console.WriteLine("Ad daxil edin");
+    Console.WriteLine("Enter the Contact Id which you want to update");
+    contact.Id = int.Parse(Console.ReadLine());
+    Console.WriteLine("Enter the Firstname");
     contact.FirstName = Console.ReadLine();
-    Console.WriteLine("Soyad daxil edin");
+    Console.WriteLine("Enter the Lastname");
     contact.LastName = Console.ReadLine();
-    Console.WriteLine("Telefon daxil edin");
+    Console.WriteLine("Enter the Phone");
     contact.Phone = Console.ReadLine();
-    Console.WriteLine("Email daxil edin");
+    Console.WriteLine("Enter the Email");
     contact.Email = Console.ReadLine();
-    Console.WriteLine("Məlumatları yeniləmək istəyirsiz? Y/N");
-    var answer = Console.ReadLine();
+    Console.WriteLine("Are you sure? Y/N");
+    string answer = Console.ReadLine();
     if (answer.ToLower().Equals("y"))
     {
-        contactService.Update(contact);
+        efContactService.Update(contact);
     }
     else
     {
-        System.Console.WriteLine("Yenilənmədi");
+        System.Console.WriteLine("Does Not Updated");
     }
 }
+#endregion
+
+#region AdoNet
+async void AdoGetAllAsync()
+{
+    Console.Clear();
+    ConsoleList(await adoContactService.GetAllAsync());
+}
+void AdoAddContact()
+{
+    Console.Clear();
+    Contact contact = new Contact();
+    Console.WriteLine("Enter name");
+    contact.FirstName = Console.ReadLine();
+    Console.WriteLine("Enter surname");
+    contact.LastName = Console.ReadLine();
+    Console.WriteLine("Enter phone");
+    contact.Phone = Console.ReadLine();
+    Console.WriteLine("Enter email");
+    contact.Email = Console.ReadLine();
+    Console.WriteLine("Do you want to save? Y/N");
+    var answer = Console.ReadLine();
+    if (answer.ToLower().Equals("y"))
+    {
+        adoContactService.Add(contact);
+    }
+    else
+    {
+        System.Console.WriteLine("Doesn't coreect simvol");
+    }
+}
+void AdoUpdateContact()
+{
+    Console.Clear();
+    Contact contact = new Contact();
+    Console.WriteLine("Enter the Contact Id which you want to update");
+    contact.Id = int.Parse(Console.ReadLine());
+    Console.WriteLine("Enter the Firstname");
+    contact.FirstName = Console.ReadLine();
+    Console.WriteLine("Enter the Lastname");
+    contact.LastName = Console.ReadLine();
+    Console.WriteLine("Enter the Phone");
+    contact.Phone = Console.ReadLine();
+    Console.WriteLine("Enter the Email");
+    contact.Email = Console.ReadLine();
+    Console.WriteLine("Are you sure? Y/N");
+    var answer = Console.ReadLine();
+    if (answer.ToLower().Equals("y"))
+    {
+        adoContactService.Update(contact);
+    }
+    else
+    {
+        System.Console.WriteLine("Does Not Updated");
+    }
+}
+void AdoDelete()
+{
+    Console.WriteLine("Enter the Contact Id which you want to delete");
+    Contact contact=new Contact();
+    contact.Id = int.Parse(Console.ReadLine());
+    Contact deletedContact = adoContactService.Get(contact);
+    if (deletedContact == null) System.Console.WriteLine("This Contact is not exists");
+    else adoContactService.Delete(deletedContact);
+}
+void AdoGet()
+{
+    Console.Clear();
+    Console.WriteLine("Enter the Contact Id which you want to search");
+    Contact contact = new Contact();
+    contact.Id = int.Parse(Console.ReadLine());
+    ConsoleContact(adoContactRepository.Get(contact));
+}
+#endregion
 void ConsoleList(List<Contact> contacts)
 {
 

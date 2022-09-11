@@ -5,7 +5,7 @@ using MyContact.Models;
 
 namespace MyContact.DataAccess.Abstract
 {
-    public interface IContactRepository:IRepository<Contact>
+    public interface IContactRepository:IRepository<Contact>,IAsyncRepository<Contact>
     {
         
     }
