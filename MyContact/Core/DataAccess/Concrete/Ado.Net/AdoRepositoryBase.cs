@@ -1,18 +1,13 @@
-﻿using FastMember;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using MyContact.Core.Constants;
 using MyContact.Core.DataAccess.Abstract;
 using MyContact.Core.Entities;
 using MyContact.Core.Utilities.Map;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection.PortableExecutable;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Primitives;
 using System.Reflection;
+using System.Globalization;
+using System.Data.Entity.Design.PluralizationServices;
 
 namespace MyContact.Core.DataAccess.Concrete.Ado.Net
 {
@@ -134,8 +129,10 @@ namespace MyContact.Core.DataAccess.Concrete.Ado.Net
         //Local Helper
         private string GetAddQuery(TEntity entity)
         {
+          var pluralizationService =  PluralizationService.CreateService(CultureInfo.GetCultureInfo("en-us"));
+            string tableName = pluralizationService.Pluralize(entity.GetType().Name);
             StringBuilder builder = new StringBuilder();
-            builder.Append($"insert into {entity.GetType().Name}s (");
+            builder.Append($"insert into {pluralizationService.Pluralize(tableName)} (");
             foreach (var property in entity.GetType().GetProperties())
             {
                 if (property.Name.ToLower().IndexOf("id") != -1)

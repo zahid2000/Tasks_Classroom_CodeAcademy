@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="FastMember" Version="1.5.0" />
+    <PackageReference Include="HiNetCloud.System.Data.Entity.Design.PluralizationServices" Version="22.9.9.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
