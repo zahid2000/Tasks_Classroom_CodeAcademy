@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Day23_Lesson_Part2.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+    Layout = "_Layout";
+}
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, AuthoringTagHelpers
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<div class="container my-4">
+<p>
+    <a asp-action="Index" asp-controller="Products" class="btn btn-outline-primary">Product</a>
+    <a asp-action="Contact" class="btn btn-outline-success">Contact</a>
+</p>
+    <table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.RelaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.Count)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=>item.RelaseDate)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem=>item.Count)
+                </td>
+                <td>
+                    <a asp-action="Detail" asp-controller="Products" asp-route-id="@item.Id" class="btn btn-warning">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
