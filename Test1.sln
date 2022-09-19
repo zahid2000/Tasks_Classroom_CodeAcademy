@@ -43,7 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyInjectionAndMiddl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppEmpty", "WebAppEmpty\WebAppEmpty.csproj", "{7A53E5B7-AD0B-4F0E-A77A-95703EEC1FB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exception", "Exception\Exception.csproj", "{3137EA8F-7F98-4BD1-BC20-FBDC20CD8A00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exception", "Exception\Exception.csproj", "{3137EA8F-7F98-4BD1-BC20-FBDC20CD8A00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoutingAppMVC", "RoutingAppMVC\RoutingAppMVC.csproj", "{562694BB-41E4-4A95-B3FE-A3439B1E5E05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +137,10 @@ Global
 		{3137EA8F-7F98-4BD1-BC20-FBDC20CD8A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3137EA8F-7F98-4BD1-BC20-FBDC20CD8A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3137EA8F-7F98-4BD1-BC20-FBDC20CD8A00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{562694BB-41E4-4A95-B3FE-A3439B1E5E05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{562694BB-41E4-4A95-B3FE-A3439B1E5E05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{562694BB-41E4-4A95-B3FE-A3439B1E5E05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{562694BB-41E4-4A95-B3FE-A3439B1E5E05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
