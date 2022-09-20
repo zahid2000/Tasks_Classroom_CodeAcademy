@@ -1,6 +1,6 @@
 ﻿//System.IO
 using System.Text;
-
+Console.WriteLine("");
 #region Forma 1
 //var user = new string[]
 //{

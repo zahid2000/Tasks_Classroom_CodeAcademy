@@ -15,3 +15,11 @@ dotnet ef dbcontext scaffold "server=CANR2-10\SQLEXPRESS;database=northwind;trus
 //dotnet new console -n proje adi
 //dotnet ef  migrations  add initialize
 //dotnet ef database update
+
+
+Install-Package Microsoft.EntityFrameworkCore.Tools
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Scaffold-DbContext "server=localhost,1433;database=northwind;uid=sa;pwd=Pro247!!" Microsoft.EntityFrameworkCore.SqlServer -outputdir Models -t Categories,Products,Customers, Shippers
+dotnet tool install --global dotnet-aspnet-codegenerator
+dotnet-aspnet-codegenerator controller -name ProductsController -m Product -dc northwindDbContext --relativeFolderPath Controllers --useDefaultLayout   
+https://www.computerhope.com/unix/ush.htm
