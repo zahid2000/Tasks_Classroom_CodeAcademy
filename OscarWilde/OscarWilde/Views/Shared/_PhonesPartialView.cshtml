@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Phone>
+
+<h3>Phones</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td>@Html.DisplayNameFor(model=>model.Name)</td>
+            <td>@Html.DisplayNameFor(model=>model.Price)</td>
+            <td>@Html.DisplayNameFor(model=>model.PhoneNumber)</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

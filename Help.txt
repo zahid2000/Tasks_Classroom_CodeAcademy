@@ -1,6 +1,6 @@
 dotnet tool install --global  dotnet-ef ->Toollari yukleyir
 dotnet tool update--global  dotnet-ef ->Toollari yenileyir
-dotnet ef dbcontext scaffold "server=CANR2-10\SQLEXPRESS;database=northwind;trusted_connection=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models  -t Categories -t Products
+dotnet ef dbcontext scaffold "server=DESKTOP-QBQM5QA\SQLEXPRESS;database=northwind;trusted_connection=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models  -t Categories -t Products
 dotnet ef dbcontext scaffold "server=CANR2-10\SQLEXPRESS;database=northwind;trusted_connection=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models
 
 // 1) dotnet add package Microsoft.EntityFrameworkCore.Design

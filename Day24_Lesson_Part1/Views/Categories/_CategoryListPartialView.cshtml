@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CategoryVM>
 
 <div class="col-6">
-    <table class="table table-dark table-hover">
+    <table class="table  table-hover">
         <thead>
             <tr>
                 <th>
@@ -30,7 +30,7 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
+                        <dropdown items-name="Details Edit Delete" icons="search pen trash" colors="primary warning danger" ></dropdown>
                     </td>
                 </tr>
             }

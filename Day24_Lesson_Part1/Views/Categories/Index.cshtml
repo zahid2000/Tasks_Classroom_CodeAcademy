@@ -17,12 +17,17 @@
 <div class="row">
   
     @Html.Partial("_CategoryListPartialView",(IEnumerable<CategoryVM>)@Model.Item3)
-    <partial name="_CategoryListPartialView" model="@Model.Item2" />
+    @*<partial name="_CategoryListPartialView" model="@Model.Item2" />
     <partial name="_CategoryListPartialView" model="@Model.Item3" />
-    <partial name="_CategoryListPartialView" model="@Model.Item4" />
+    <partial name="_CategoryListPartialView" model="@Model.Item4" />*@
 
  @*   @Html.Partial("_CategoryListPartialView",(IEnumerable<CategoryVM>)ViewData["CategoriesViewData"])
     <partial name="_CategoryListPartialView" model='(IEnumerable<CategoryVM>)ViewData["CategoriesViewData"]' />
     <partial name="_CategoryListPartialView" model='(IEnumerable<CategoryVM>)TempData["CategoriesTempData"]' />
     <partial name="_CategoryListPartialView" model="ViewBag.CategoriesViewBag" />*@
 </div>
+
+
+    @section css{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    }

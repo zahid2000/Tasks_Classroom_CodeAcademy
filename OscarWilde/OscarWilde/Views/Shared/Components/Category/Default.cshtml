@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Category>
+
+<h3>
+    <a asp-action="Index" style="text-decoration:none;" asp-controller="Home">Categories</a>
+</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="Home" asp-route-name="@item.Name">@Html.DisplayFor(modelItem => item.Name)</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

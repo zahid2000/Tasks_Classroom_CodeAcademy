@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Computer>
+
+    <h3>Computers</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td>@Html.DisplayNameFor(model=>model.Name)</td>
+            <td>@Html.DisplayNameFor(model=>model.Price)</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
