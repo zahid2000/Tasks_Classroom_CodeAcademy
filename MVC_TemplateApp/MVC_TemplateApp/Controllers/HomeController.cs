@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVC_TemplateApp.Models;
 using System.Diagnostics;
 
@@ -7,102 +8,18 @@ namespace MVC_TemplateApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly MvcDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, MvcDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
 
-            var products = new List<Product>
-            {
-                new Product{
-                    Name="Fresh organic kiwi",
-                    StartPrice=10,
-                    Price=70    ,
-                    Rate=3,
-                    ProductPhotos=new List<ProductPhoto>{
-                        new ProductPhoto{
-                            Url="/images/products/product-image-2-1.jpg"
-                        },
-                        new ProductPhoto{
-                              Url="/images/products/product-image-2-2.jpg"
-                        }
-                    }
-                },
-                new Product{
-                     Name="Dried mango",
-                     StartPrice=10,
-                     Price=70    ,
-                     Rate=2,
-                     ProductPhotos=new List<ProductPhoto>{
-                         new ProductPhoto{
-                             Url="/images/products/product-image-1-1.jpg"
-                         },
-                         new ProductPhoto{
-                               Url="/images/products/product-image-1-2.jpg"
-                         }
-                     }
-                 },
-                new Product{
-                     Name="Dried banana",
-                     StartPrice=60,
-                     Price=80    ,
-                     Rate=4,
-                     ProductPhotos=new List<ProductPhoto>{
-                         new ProductPhoto{
-                             Url="/images/products/product-image-3-1.jpg"
-                         },
-                         new ProductPhoto{
-                               Url="/images/products/product-image-3-2.jpg"
-                         }
-                     }
-                  },
-                new Product{
-                        Name="Crunchy crisp",
-                        StartPrice=50,
-                        Price=90    ,
-                        Rate=5,
-                        ProductPhotos=new List<ProductPhoto>{
-                            new ProductPhoto{
-                                Url="/images/products/product-image-4-1.jpg"
-                            },
-                            new ProductPhoto{
-                                    Url="/images/products/product-image-4-2.jpg"
-                            }
-                        }
-                  },
-                new Product{
-                          Name="Jewel cranberries",
-                          StartPrice=60,
-                          Price=67    ,
-                          Rate=4,
-                          ProductPhotos=new List<ProductPhoto>{
-                              new ProductPhoto{
-                                  Url="/images/products/product-image-5-1.jpg"
-                              },
-                              new ProductPhoto{
-                                      Url="/images/products/product-image-5-2.jpg"
-                              }
-                          }
-                    },
-                new Product{
-           Name="Fresh Broccoli",
-           StartPrice=60,
-           Price=68  ,
-           Rate=5,
-           ProductPhotos=new List<ProductPhoto>{
-               new ProductPhoto{
-                   Url="/images/products/product-image-6-1.jpg"
-               },
-               new ProductPhoto{
-                       Url="/images/products/product-image-6-2.jpg"
-               }
-           }
-     }
-            };
+            var products = _context.Products.Include(p=>p.ProductPhotos).ToList();
             return View(products);
         }
 
