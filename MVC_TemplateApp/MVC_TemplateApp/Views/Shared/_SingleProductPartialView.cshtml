@@ -1,0 +1,39 @@
+﻿@model Product
+
+<div class="single-product-item">
+    <div class="single-product-item-image">
+        <a href="product-details.html" class="prodcut-images">
+            <img class="primary-image" src="@Model.ProductPhotos.ElementAt(0).Url" alt="">
+            <img class="secondary-image" src="@Model.ProductPhotos.ElementAt(1).Url" alt="">
+        </a>
+        <ul class="single-product-item-action">
+            <li class="single-product-item-action-list">
+                <a href="#" class="single-product-item-action-link"><i class="icon-rt-heart2"></i></a>
+            </li>
+            <li class="single-product-item-action-list">
+                <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick-view-modal" class="single-product-item-action-link"><i class="icon-rt-eye2"></i></a>
+            </li>
+            <li class="single-product-item-action-list product-cart">
+                <a href="#" class="single-product-item-action-link"><i class="icon-rt-basket-outline"></i></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="single-product-item-content">
+        <div class="single-product-item-rating">
+            @foreach (var item in Enumerable.Range(1,Model.Rate))
+            {
+                 <i class="icon-rt-star-solid select-star"></i>
+            }
+            @foreach (var item in Enumerable.Range(1, 5 - Model.Rate))
+            {
+                <i class="icon-rt-star-solid select"></i>
+            }
+           
+        </div>
+        <h6 class="single-product-item-title"><a href="product-details.html">@Model.Name</a></h6>
+        <div class="single-product-item-price">
+            $@Model.StartPrice - $@Model.Price
+        </div>
+    </div>
+</div>

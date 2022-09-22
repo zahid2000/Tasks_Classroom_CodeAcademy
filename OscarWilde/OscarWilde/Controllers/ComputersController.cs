@@ -10,6 +10,7 @@ namespace OscarWilde.Controllers
         public ComputersController(MyDbContext dbContext)
         {
             _dbContext = dbContext;
+            
         }
         public IActionResult Index()
         {

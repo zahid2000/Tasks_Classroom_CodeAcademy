@@ -1,0 +1,41 @@
+﻿@model IEnumerable<object>
+
+
+<h3>@(Model.ElementAt(0).GetType().Name)s</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            @foreach (PropertyInfo item in Model.ElementAt(0).GetType().GetProperties())
+            {
+                @if (item.Name.ToLower().IndexOf("id") < 0)
+                {
+
+                    <td>@item.Name</td>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (object item in Model)
+        {
+
+            <tr>
+                @foreach (PropertyInfo info in item.GetType().GetProperties())
+                {
+                    @if (info.Name.ToLower().IndexOf("id") < 0)
+                    {
+
+                        <td>
+                            @info.GetValue(item)
+                        </td>
+                    }
+                }
+            </tr>
+
+        }
+
+
+
+    </tbody>
+
+</table>
