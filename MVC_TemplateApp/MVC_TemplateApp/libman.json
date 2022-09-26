@@ -12,6 +12,10 @@
     {
       "library": "moment.js@2.29.4",
       "destination": "wwwroot/lib/moment/"
+    },
+    {
+      "library": "dropzone@5.9.3",
+      "destination": "wwwroot/js/dropzone/"
     }
   ]
 }
