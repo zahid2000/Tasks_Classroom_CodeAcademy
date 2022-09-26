@@ -1,8 +1,46 @@
-﻿@{
+﻿@model string
+@{
     ViewData["Title"] = "Home Page";
 }
+@{
+    string[] items = { "C#", "Java", "Phyton", "C++", "C", "Ruby", "PHP", "GROOVY" };
+}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@* div.row.mt-5>.div.col>(h1.display-4)+(h1.display-4)+(p>a)+(p) *@
+@if (!string.IsNullOrEmpty(Model))
+{
+
+    <div class="row mt-5">
+        <div class="div col">
+            <h1 class="display-4">Kullandiginiz yazilim dili</h1>
+            <h1 class="display-4 text-center rounded shadow-sm bg-warning pb-3">@Model</h1>
+            <p>Yeni bir secim icin (remove) <a asp-action="remove" asp-route-id="survey">tiklayiniz</a></p>
+            <p>Yeni bir secim icin (clear) <a asp-action="clear"  >tiklayiniz</a></p>
+            <p></p>
+        </div>
+    </div>
+}
+else{
+
+
+<form asp-action="Index">
+    <div class="row row-cols-4 mt-5 shadow-sm">
+        @{
+            foreach (var item in items)
+            {
+                    <div class="col">
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input id="@item" type="radio" class="custom-control-radio" value="@item" name="survey">
+                                <label for="@item" class="custom-control-label">@item</label>
+                            </div>
+                        </div>
+                    </div>
+            }
+                <div class="col-12">
+                    <button class="btn btn-outline-dark btn-sm mb-3 mt-5 float-end" type="submit">Kaydet</button>
+                </div>
+        }
+    </div>
+</form>
+}

@@ -7,7 +7,7 @@ namespace StateManagement_Cookie.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        private const string COOKIE_SURVEY_KEY = "survey";
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -15,18 +15,43 @@ namespace StateManagement_Cookie.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var cookie = Request.Cookies[COOKIE_SURVEY_KEY];
+
+            return View(viewName:nameof(Index),model:cookie);
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Index(string survey)
         {
-            return View();
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.Now.AddSeconds(30);
+            Response.Cookies.Append(COOKIE_SURVEY_KEY,survey,options);
+            return RedirectToAction(nameof(Index));
         }
+        public IActionResult Clear()
+        {
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            Response.Cookies.Append(COOKIE_SURVEY_KEY, "", new CookieOptions
+            {
+                Expires = DateTime.Now.AddSeconds(-1)
+            });
+            return RedirectToAction(nameof(Index));
         }
+        public IActionResult Remove(string id)
+        {
+            
+            Response.Cookies.Delete(id);
+            return RedirectToAction(nameof(Index));
+        }
+        //public IActionResult Privacy()
+        //{
+        //    return View();
+        //}
+
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public IActionResult Error()
+        //{
+        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        //}
     }
 }
