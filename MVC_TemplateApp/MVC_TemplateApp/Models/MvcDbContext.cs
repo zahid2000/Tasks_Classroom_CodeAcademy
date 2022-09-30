@@ -2,12 +2,12 @@
 
 namespace MVC_TemplateApp.Models
 {
-    public class MvcDbContext:DbContext
+    public class MvcDbContext:IdDentityDbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("server=DESKTOP-QBQM5QA\\SQLEXPRESS;database=MvcDb;Trusted_Connection=true;");
-            base.OnConfiguring(optionsBuilder);
+      public MvcDbContext (DbContextOptions opt):base(opt)
+	{
+
+	}  
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductPhoto> ProductPhotos { get; set; }

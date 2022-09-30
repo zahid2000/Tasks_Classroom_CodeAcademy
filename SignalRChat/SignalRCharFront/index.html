@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="message" />
+    <button id="sendBtn">Send</button>
+    <ul id="messagesList"></ul>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.9/signalr.min.js"
+      integrity="sha512-QWRJOSq83Mq+hh/qZrG9Qe+gDfyAZfiTyIpn2tc5gRehrGlqYsbe1nX39FIhAUuGIdxB1Bv1fct4oEpCi7iEWw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script>
+        const connection=new signalR.HubConnectionBuilder()
+                                    .withUrl("https://localhost:7034/chatHub")
+                                    .build();
+
+connection.start()
+        let btn=document.getElementById("sendBtn")
+        let message=document.getElementById("message")
+        btn.addEventListener("click",()=>{
+            connection.invoke("SendMessageAsync",message.value);
+        })
+
+        connection.on("ReceiveMessage",(message)=>{
+         console.log(message)
+
+            var li = document.createElement("li");
+        document.getElementById("messagesList").appendChild(li);
+         li.textContent = ` ${message}`;
+        })
+    </script>
+  </body>
+</html>

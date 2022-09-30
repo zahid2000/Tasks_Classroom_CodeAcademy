@@ -1,22 +1,20 @@
-﻿
-
-using System.Text.Json.Serialization;
-using WebAPI.Dtos.CategoryDtos;
-
-namespace WebAPI.Controllers
+﻿namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class CategoriesOldController : ControllerBase
     {
         private readonly NorthwindDbContext _northwindDbContext;
         private readonly IMapper _mapper;
-
-        public CategoriesController(NorthwindDbContext northwindDbContext, IMapper mapper)
+        private readonly IValidator<CategoryCreateDto> _validator;
+        public CategoriesOldController(NorthwindDbContext northwindDbContext, IMapper mapper, IValidator<CategoryCreateDto> validator)
         {
             _northwindDbContext = northwindDbContext;
             _mapper = mapper;
+            _validator = validator;
         }
+
+        #region Old
         [HttpGet]
         public async Task<IEnumerable<CategoryDto>> Get()
         {
@@ -40,14 +38,24 @@ namespace WebAPI.Controllers
             }).Take(5).ToListAsync();
             return result;
         }
+
+        /// <summary>
+        /// Create New Category
+        /// </summary>
+        /// <param name="categoryCreateDto">CreateCategoryDto CreateCategoryDto</param>
+        /// <returns>A newly created Category</returns>
         [HttpPost]
         public async Task<CategoryDto>  Post(
-            [FromQuery]CategoryCreateDto categoryCreateDto,
-            [FromBody] CategoryCreateDto createDto,
-            [FromHeader] HeadData headData)
+            [FromBody] CategoryCreateDto categoryCreateDto)
         {
-            var result = await _northwindDbContext.Categories.AddAsync(_mapper.Map<Category>(categoryCreateDto));
-            await _northwindDbContext.SaveChangesAsync();
+
+            //ValidationResult validateResult=await _validator.ValidateAsync(categoryCreateDto);
+            //if (!validateResult.IsValid)
+            //{
+
+            //}
+            //var result = await _northwindDbContext.Categories.AddAsync(_mapper.Map<Category>(categoryCreateDto));
+            //await _northwindDbContext.SaveChangesAsync();
             return _mapper.Map<CategoryDto>(categoryCreateDto);
         }
         public class HeadData
@@ -61,5 +69,7 @@ namespace WebAPI.Controllers
             [FromHeader]
             public string? Accept { get; set; }
         }
+        #endregion
+
     }
 }

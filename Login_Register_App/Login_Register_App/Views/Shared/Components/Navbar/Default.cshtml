@@ -10,12 +10,12 @@
             <li class="nav-item active">
                 <a class="nav-link" asp-action="Index" asp-controller="Home">Home </a>
             </li>
-            @if (Model != "register" && Model != "login")
-  {
+             
+   
                 <li class="nav-item">
                     <a class="nav-link" asp-action="Login" asp-controller="Auth">Login</a>
                 </li>
-  } 
+ 
             @if (Model != "register" && Model != "login")
             {
                 <li class="nav-item">
@@ -32,6 +32,12 @@
             {
                 <li class="nav-item">
                     <a class="nav-link" asp-action="LogOut" asp-controller="Auth">LogOut</a>
+                </li>
+            }
+            @if (Model == "login")
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Chat" asp-controller="Home">Chat</a>
                 </li>
             }
 

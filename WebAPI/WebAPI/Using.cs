@@ -1,7 +1,12 @@
-﻿global using Microsoft.AspNetCore.Http;
-global using Microsoft.AspNetCore.Mvc;
+﻿global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using WebAPI.Data;
 global using WebAPI.Models;
 global using AutoMapper;
 global using WebAPI.Dtos.CategoryDtos;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.EntityFrameworkCore.Migrations;
+global using Microsoft.EntityFrameworkCore.Infrastructure;
+global using FluentValidation;
+global using WebAPI.Resurces;
+global using FluentValidation.Results;

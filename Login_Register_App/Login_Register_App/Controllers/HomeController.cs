@@ -33,6 +33,13 @@ namespace Login_Register_App.Controllers
             return View(result);
            
         }
+        public IActionResult Chat()
+        {
+            var loginResult = Request.Cookies[LOGIN_DATA_KEY];
+            if (string.IsNullOrEmpty(loginResult))
+                return NotFound();
+            return View(model:loginResult);
+        }
 
         
     }
