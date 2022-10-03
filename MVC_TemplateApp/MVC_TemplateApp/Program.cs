@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using MVC_TemplateApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<MvcDbContext>();
+builder.Services.AddIdentity<IdentityUser,IdentityRole>(opt =>
+{
+    opt.SignIn.RequireConfirmedEmail = false;
+    opt.SignIn.RequireConfirmedPhoneNumber = false;
+    opt.Password.RequireNonAlphanumeric=false;
+    opt.Password.RequiredLength = 8;
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireUppercase = true;
+    opt.Lockout.MaxFailedAccessAttempts = 3;
+    opt.Lockout.DefaultLockoutTimeSpan=TimeSpan.FromSeconds(5);
+}).AddDefaultTokenProviders().AddEntityFrameworkStores<MvcDbContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
