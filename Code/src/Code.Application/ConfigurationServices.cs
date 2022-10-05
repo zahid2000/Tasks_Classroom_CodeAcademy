@@ -1,6 +1,6 @@
 ﻿namespace Code.Application;
 
-public static class ConfigurationService
+public static class ConfigurationServices
 {
     public static  IServiceCollection AddApplicationServices(this IServiceCollection serviceCollection)
     {

@@ -1,4 +1,4 @@
-﻿namespace Code.Domain.Entities;
+﻿ namespace Code.Domain.Entities;
 
 public class Category : BaseAuditableEntity
 {
