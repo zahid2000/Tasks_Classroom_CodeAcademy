@@ -1,4 +1,5 @@
-﻿using Code.Application.Common.Interfaces;
+﻿using Code.Application.Common.Exceptions;
+using Code.Application.Common.Interfaces;
 
 namespace Code.Application.Categories.Commands.UpdateCategory;
 
@@ -22,8 +23,8 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         var entity=await _context.Categories.FindAsync(new object[] {request.Id},cancellationToken);
 
         if (entity==null)
-        {
-            throw new Exception("");//TODO:NotFoundException sinfi hazirlanacak;
+        { 
+            throw new NotFoundException("DeleteCategoryCommand");
         }
         entity.CategoryName = request.CategoryName;
         entity.Description = request.Description;

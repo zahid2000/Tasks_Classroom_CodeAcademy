@@ -16,3 +16,4 @@ global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Code.Application;
 global using Code.Infrastructure;
 global using Code.Infrastructure.Persistance;
+global using Microsoft.EntityFrameworkCore.Diagnostics;

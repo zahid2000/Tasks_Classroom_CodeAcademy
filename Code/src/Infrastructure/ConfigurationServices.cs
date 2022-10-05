@@ -1,4 +1,5 @@
 ﻿using Code.Infrastructure.Persistance;
+using Code.Infrastructure.Persistance.Interceptors;
 
 namespace Code.Infrastructure;
 
@@ -6,6 +7,9 @@ public static class ConfigurationServices
 {
     public static IServiceCollection AddInfastructureServices(this IServiceCollection serviceCollection,IConfiguration configuration)
     {
+
+        serviceCollection.AddScoped<AuditableEntitySaveChangesInterceptors>();
+
         serviceCollection.AddDbContext<ApplicationDbContext>(options => 
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
         builderOptions=>

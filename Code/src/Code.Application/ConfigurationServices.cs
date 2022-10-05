@@ -1,4 +1,7 @@
-﻿namespace Code.Application;
+﻿using Code.Application.Common.Behaviorus;
+using MediatR;
+
+namespace Code.Application;
 
 public static class ConfigurationServices
 {
@@ -7,7 +10,7 @@ public static class ConfigurationServices
         serviceCollection.AddMediatR(Assembly.GetExecutingAssembly());
         serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
         serviceCollection.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
+        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>),typeof(UnhandledExceptionBehaviour<,>));
         return serviceCollection;
     }
 }

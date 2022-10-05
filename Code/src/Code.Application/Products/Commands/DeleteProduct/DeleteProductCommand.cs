@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Code.Application.Common.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace Code.Application.Products.Commands.DeleteProduct
             var entity = await _context.Products.Where(x => x.Id == request.id).SingleOrDefaultAsync();
             if (entity==null)
             {
-                throw new Exception("");//TODO:NotFoundException
+                throw new NotFoundException("DeleteProductCommand");
             }
             _context.Products.Remove(entity);
           await  _context.SaveChangesAsync(cancellationToken);

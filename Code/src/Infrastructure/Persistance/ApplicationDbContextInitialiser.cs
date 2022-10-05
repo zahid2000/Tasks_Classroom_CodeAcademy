@@ -54,11 +54,11 @@ namespace Code.Infrastructure.Persistance
                 await _roleManager.CreateAsync(adminstratorRole);
             }
             //Default Users
-            var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost.com" };
+            var administrator = new ApplicationUser { UserName = "administrator1@localhost", Email = "administrator1@localhost.com" };
             if (_userManager.Users.All(u => u.UserName != administrator.UserName)){
-                await _userManager.CreateAsync(administrator,"ad$$min1");
-                //await  _userManager.AddToRoleAsync(administrator,adminstratorRole.Name)  //bir rol varsa
-                await _userManager.AddToRolesAsync(administrator, new[] { adminstratorRole.Name });  //cox rol varsa
+                await _userManager.CreateAsync(administrator,"Ad$$m23.in1");
+                await _userManager.AddToRoleAsync(administrator, adminstratorRole.Name); //bir rol varsa
+                //await _userManager.AddToRolesAsync(administrator, new[] { adminstratorRole.Name });  //cox rol varsa
             }
 
             //Default Categories
@@ -74,8 +74,9 @@ namespace Code.Infrastructure.Persistance
                     new Category { CategoryName = "Produce", Description = "Dried fruit and bean curd" },
                     new Category { CategoryName = "Seafood", Description = "Seaweed and fish" }
                     );
+                await _context.SaveChangesAsync();
+
             }
-            await _context.SaveChangesAsync();
         }
     }
 }

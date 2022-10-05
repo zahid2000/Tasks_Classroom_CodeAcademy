@@ -1,4 +1,5 @@
 ﻿    using Code.Application.Categories.Commands.CreateCategory;
+using Code.Application.Common.Exceptions;
 using Code.Application.Common.Interfaces;
 using MediatR;
 
@@ -20,7 +21,7 @@ namespace Code.Application.Categories.Commands.DeleteCategory
             var entity = await _context.Categories.Where(x => x.Id == request.id).SingleOrDefaultAsync();
             if (entity==null)
             {
-                throw new Exception("");//TODO :Bu alan Not FOunt Exception olaraq duzenlenecek
+                throw new NotFoundException(nameof(DeleteCategoryCommand),request.id);
             }
             _context.Categories.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);

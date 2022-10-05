@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Code.Application.Common.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,7 @@ namespace Code.Application.Products.Commands.UpdateProduct
             var entity =await _context.Products.FindAsync(new object[] { request.Id }, cancellationToken);
             if (entity==null)
             {
-                throw new Exception("");//TODO: NotFoundException
+                throw new NotFoundException("UpdateProductCommand");
             }
             entity.ProductName = request.ProductName;
             entity.UnitPrice = request.UnitPrice;
