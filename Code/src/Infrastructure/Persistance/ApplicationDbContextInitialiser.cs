@@ -57,8 +57,8 @@ namespace Code.Infrastructure.Persistance
             var administrator = new ApplicationUser { UserName = "administrator1@localhost", Email = "administrator1@localhost.com" };
             if (_userManager.Users.All(u => u.UserName != administrator.UserName)){
                 await _userManager.CreateAsync(administrator,"Ad$$m23.in1");
-                await _userManager.AddToRoleAsync(administrator, adminstratorRole.Name); //bir rol varsa
-                //await _userManager.AddToRolesAsync(administrator, new[] { adminstratorRole.Name });  //cox rol varsa
+                //await _userManager.AddToRoleAsync(administrator, adminstratorRole.Name); //bir rol varsa
+                await _userManager.AddToRolesAsync(administrator, new[] { adminstratorRole.Name });  //cox rol varsa
             }
 
             //Default Categories

@@ -1,5 +1,6 @@
 ﻿using Code.Infrastructure.Persistance;
 using Code.Infrastructure.Persistance.Interceptors;
+using Code.Infrastructure.Service;
 
 namespace Code.Infrastructure;
 
@@ -31,8 +32,9 @@ public static class ConfigurationServices
 
         serviceCollection.AddTransient<IDateTime, DateTimeService>();
 
-        //serviceCollection.AddTransient<IIdentityService, IdentityService>();
-        
+
+        serviceCollection.AddTransient<IIdentityService, IdentityService>();
+
         serviceCollection.AddAuthentication().AddIdentityServerJwt();
         return serviceCollection;
     }

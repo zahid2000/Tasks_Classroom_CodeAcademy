@@ -6,12 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Code.WebApi.Controllers
 {
 
-    public class ApiBaseController : ControllerBase
-    {
-        private ISender _mediatr = null;
-        public ISender Mediator=>_mediatr??=HttpContext.RequestServices.GetRequiredService<ISender>();
-    }
-
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ApiBaseController
